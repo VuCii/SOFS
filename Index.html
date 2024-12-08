@@ -15,34 +15,34 @@
 </head>
 <body>
     <header>
-        <header>
-            <nav class="navbar">
-                <div class="logo">
-                    <img src="path/to/logo.png" alt="SOFS Logo" />
-                    <span>SOFS</span>
-                </div>
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="LoanApplication.html">Apply for Loan</a></li>
-                </ul>
-                <div class="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </nav>
-        </header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="./Images/IMG-20241208-WA0003[1].jpg" alt="SOFS Logo" />
+                <a href="index.html">SOFS</a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="LoanApplication.html">Apply for Loan</a></li>
+            </ul>
+        </nav>
+        
         
     </header>
 
     <div class="container">
-        <img src="path/to/logo.png" />
+        
         <h1>Sleth'Okuhle Financial Services</h1>
         <p>"FINANCIAL FREEDOM,SIMPLIFIED".</p>
         <div class="button">
             <a href="#" id="openModal" class="hoverable-button">Apply Now</a>
 
         </div>
+    </div>
             <div id="personalDetailsModal" class="modal">
     <div class="modal-content">
         <span class="close-button">&times;</span>
@@ -113,11 +113,12 @@
 
             <!-- Submit Button -->
             <button type="submit">Submit</button>
+            
         </form>
     </div>
 </div>
 
-        </div>
+       
         
       
     </div>
@@ -149,7 +150,7 @@
                 </ul>
             </div>
             <div class="about-image">
-                <img src="./Images/background.webp" alt="Sleth Okuhle Financial Services" />
+                <img src="./Images/banner.jpg" alt="Sleth Okuhle Financial Services" />
             </div>
         </div>
     </section>
@@ -180,11 +181,142 @@
         }
     });
 </script>
+<script>
+    const hamburger = document.querySelector('.hamburger');
+const navLinks = document.querySelector('.nav-links');
+
+hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navLinks.classList.toggle('active');
+});
+
+</script>
 
 
    
 </html>
 <style>
+    /* Navbar Styling */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+.logo a {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff7700;
+    text-decoration: none;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links li {
+    margin: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #ff7700;
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: #333;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+/* Mobile Menu */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        background-color: white;
+        width: 200px;
+        padding: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+}
+
+/* Hamburger Animation */
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+    .container {
+    background-image: url(./Images/IMG-20241208-WA0003[1].jpg);
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    padding: 40px 20px; /* Add some horizontal padding */
+    background-color: rgba(255, 255, 255, 0.9); /* Transparent white overlay for better readability */
+    border-radius: 8px; /* Smooth corners */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* More pronounced shadow for a polished look */
+    margin: 20px auto; /* Center the container */
+    max-width: 1200px; /* Limit the width for better presentation on larger screens */
+    width: 100%; /* Make it responsive */
+    height: auto; /* Adjust height based on content */
+    overflow: hidden; /* Prevent content overflow */
+}
+.container h1 {
+    color: #0288d1; /* Elegant orange for headings */
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Shadow for better visibility */
+}
+
+.container p {
+    color: #0288d1; /* Slightly lighter orange for paragraphs */
+    font-size: 1.2rem;
+    line-height: 1.6;
+    text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
     /* Modal Background */
     .hoverable-button {
     display: inline-block;
@@ -213,18 +345,17 @@
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
-
-    .container {
-        background-image: url(./Images/asus.jpg);
+.container {
+    background-image: url(./Images/IMG-20241208-WA0003[1].jpg);
     text-align: center;
     padding: 40px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     margin: 30px auto;
-    width: 80%;
-    max-width: 960px;
-    }
+    width: 7000px;
+    height: 300px;
+}
 .modal {
     display: none;
     position: fixed;
@@ -325,7 +456,7 @@ button:hover {
 .logo span {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #01579b;
+    color: #0288d1;
 }
 
 /* Navigation Links */
@@ -338,14 +469,14 @@ button:hover {
 .nav-links li a {
     text-decoration: none;
     font-size: 1rem;
-    color: #333;
+    color: #0288d1;
     padding: 8px 12px;
     border-radius: 5px;
     transition: background 0.3s, color 0.3s;
 }
 
 .nav-links li a:hover {
-    background: #0288d1;
+    background: #ce7502;
     color: white;
 }
 
