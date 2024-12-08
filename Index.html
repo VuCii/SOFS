@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleth Okuhle Cash Loans</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/4.0.0/signature_pad.umd.min.js"></script> <!-- Signature Pad -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> <!-- jsPDF -->
+    <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    rel="stylesheet"
+/>
+
+</head>
+<body>
+    <header>
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="path/to/logo.png" alt="SOFS Logo" />
+                    <span>SOFS</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="LoanApplication.html">Apply for Loan</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </header>
+        
+    </header>
+
+    <div class="container">
+        <img src="path/to/logo.png" />
+        <h1>Sleth'Okuhle Financial Services</h1>
+        <p>"FINANCIAL FREEDOM,SIMPLIFIED".</p>
+        <div class="button">
+            <a href="#" id="openModal" class="hoverable-button">Apply Now</a>
+
+        </div>
+            <div id="personalDetailsModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <form id="personalDetailsForm" enctype="multipart/form-data">
+            <h2>Personal Details</h2>
+
+            <!-- Full Name -->
+            <div class="form-group">
+                <label for="fullName">Full Name:</label>
+                <input type="text" name="fullName" id="fullName" placeholder="Full Name" required />
+            </div>
+
+            <!-- ID Number -->
+            <div class="form-group">
+                <label for="idNumber">ID Number:</label>
+                <input type="text" name="idNumber" id="idNumber" placeholder="ID Number" required />
+            </div>
+
+            <!-- Contact Info -->
+            <div class="form-group">
+                <label for="contact">Contact Information:</label>
+                <input type="tel" name="contact" id="contact" placeholder="Phone Number" required />
+            </div>
+
+            <!-- Address -->
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" name="address" id="address" placeholder="Residential Address" required />
+            </div>
+
+            <!-- Employment Status -->
+            <div class="form-group">
+                <label for="employmentStatus">Employment Status:</label>
+                <select name="employmentStatus" id="employmentStatus" required>
+                    <option value="">Select Employment Status</option>
+                    <option value="Employed">Employed</option>
+                    <option value="Self-Employed">Self-Employed</option>
+                    <option value="Unemployed">Unemployed</option>
+                    <option value="Student">Student</option>
+                    <option value="Retired">Retired</option>
+                </select>
+            </div>
+        <!-- Address -->
+        <div class="form-group">
+            <label for="Company">Company Name:</label>
+            <select name="Company" id="Company" required>
+                <option value="" disabled selected>Select a Company</option>
+                <option value="Diplomat South Africa">Diplomat South Africa</option>
+                <option value="Unilever">Unilever</option>
+                <option value="Lectogen Pamarlat">Lectogen Pamarlat</option>
+                <option value="Tigerbrand">Tigerbrand</option>
+                <option value="Vibrant Sales">Vibrant Sales</option>
+                <option value="TFS">TFS</option>
+                <option value="Checksave">Checksave</option>
+                <option value="OK Groceries">OK Groceries</option>
+                <option value="OKFoodsSpar">OKFoodsSpar</option>
+                <option value="Shoprite">Shoprite</option>
+                <option value="AVI">AVI</option>
+                <option value="FGKnights">FGKnights</option>
+            </select>
+        </div>
+        
+            <!-- Upload ID Document -->
+            <div class="form-group">
+                <label for="idDocument">Upload ID Document:</label>
+                <input type="file" name="idDocument" id="idDocument" accept=".pdf,.jpg,.png,.jpeg" required />
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+        </div>
+        
+      
+    </div>
+    <section id="about-us" class="about-section">
+        <div class="about-container">
+            <div class="about-text">
+                <h2>About Sleth Okuhle Financial Services</h2>
+                <p>
+                    At <strong>Sleth Okuhle Financial Services</strong>, we are dedicated to providing our local community with simplified financial solutions. 
+                    Our mission is to empower individuals and businesses with accessible, transparent, and efficient cash loans and financial advice tailored to their needs.
+                </p>
+                <ul class="about-list">
+                    <li>
+                        <i class="fas fa-hand-holding-usd"></i> 
+                        <span>Quick and Easy Loan Applications</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-percent"></i> 
+                        <span>Affordable Interest Rates</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-users"></i> 
+                        <span>Customer-Centric Financial Solutions</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-shield-alt"></i> 
+                        <span>Secure and Transparent Transactions</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="about-image">
+                <img src="./Images/background.webp" alt="Sleth Okuhle Financial Services" />
+            </div>
+        </div>
+    </section>
+    
+
+<!-- Modal Structure -->
+<script>
+    // Get Modal Elements
+    const modal = document.getElementById("personalDetailsModal");
+    const openModalButton = document.getElementById("openModal");
+    const closeModalButton = document.querySelector(".close-button");
+
+    // Open Modal
+    openModalButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        modal.style.display = "block";
+    });
+
+    // Close Modal
+    closeModalButton.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    // Close Modal on Outside Click
+    window.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+</script>
+
+
+   
+</html>
+<style>
+    /* Modal Background */
+    .hoverable-button {
+    display: inline-block;
+    text-align: center;
+    padding: 12px 25px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    background: linear-gradient(45deg, #0288d1, #42a5f5);
+    border: none;
+    border-radius: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+@media (max-width: 768px) {
+    .hoverable-button {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+}
+
+.hoverable-button:hover {
+    background: linear-gradient(45deg, #42a5f5, #0288d1);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+    .container {
+        background-image: url(./Images/asus.jpg);
+    text-align: center;
+    padding: 40px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    margin: 30px auto;
+    width: 80%;
+    max-width: 960px;
+    }
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+}
+
+/* Modal Content */
+.modal-content {
+    background: rgba(255, 255, 255, 0.9);
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Close Button */
+.close-button {
+    float: right;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+}
+
+.close-button:hover {
+    color: #ff0000;
+}
+
+/* Form Styling */
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input,
+select,
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+button {
+    background-color: #d10202;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #026aa7;
+}
+
+    /* Navbar Styling */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Logo Section */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+.logo span {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #01579b;
+}
+
+/* Navigation Links */
+.nav-links {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    font-size: 1rem;
+    color: #333;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.nav-links li a:hover {
+    background: #0288d1;
+    color: white;
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background: #333;
+    border-radius: 3px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+    }
+
+    .nav-links.show {
+        display: flex;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+}
+@media (max-width: 768px) {
+    .about-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .about-text {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .about-image img {
+        width: 80%;
+        margin: 0 auto;
+    }
+}
+
+
+.about-section {
+    padding: 50px 20px;
+    background: linear-gradient(135deg, #f9f9f9, #ffffff);
+    color: #333;
+    font-family: 'Arial', sans-serif;
+}
+
+.about-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.about-text {
+    flex: 1;
+    max-width: 600px;
+    margin-right: 20px;
+}
+
+.about-text h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #0288d1;
+}
+
+.about-text p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    line-height: 1.8;
+}
+
+.about-list {
+    list-style: none;
+    padding: 0;
+}
+
+.about-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 1rem;
+}
+
+.about-list li i {
+    font-size: 1.5rem;
+    color: #0288d1;
+    margin-right: 10px;
+}
+
+.about-image {
+    flex: 1;
+    max-width: 500px;
+}
+
+.about-image img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+
+    /* Section Styling */
+.loan-application-section {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    max-width: 600px;
+    margin: auto;
+    color: #333;
+}
+
+/* Form Header */
+.loan-application-section h2 {
+    text-align: center;
+    color: #01579b;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+/* Info Text Styling */
+.info-text {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    color: #666;
+}
+
+.highlight {
+    font-weight: bold;
+    color: #0288d1;
+}
+
+/* Form Group Styling */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #01579b;
+}
+
+input, select, textarea, canvas {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.6);
+    color: #000;
+    outline: none;
+    font-size: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+input:focus, textarea:focus {
+    border-color: #0288d1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Summary Section */
+.calculation-summary {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+.calculation-summary p {
+    margin: 5px 0;
+}
+
+/* Signature Pad */
+.signature-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.signature-container label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+    color: #01579b;
+}
+
+/* Buttons */
+.primary-btn, .secondary-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.primary-btn {
+    background: #0288d1;
+    color: #fff;
+    font-weight: bold;
+}
+
+.primary-btn:hover {
+    background: #01579b;
+}
+
+.secondary-btn {
+    background: #e0e0e0;
+    color: #333;
+    margin-top: 10px;
+}
+
+.secondary-btn:hover {
+    background: #bdbdbd;
+}
+
+/* Terms Checkbox */
+.terms {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.terms label {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .loan-application-section {
+        padding: 15px;
+    }
+
+    .loan-application-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .primary-btn, .secondary-btn {
+        font-size: 0.9rem;
+    }
+}
+
+</style>
+
