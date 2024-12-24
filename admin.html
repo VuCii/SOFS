@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="images/logo.jpg" alt="SOFS Logo" />
+                <a href="index.html">SOFS</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="LoanApplication.html">Apply for Loan</a></li>
+                <li><a href="admin.html">Admin Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <!-- Dashboard Analytics -->
+        <div class="analytics">
+            <h2>Dashboard Analytics</h2>
+            <div class="analytics-cards">
+                <div class="analytics-card">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <p>Total Loan Amount</p>
+                    <span id="analyticsTotalLoanAmount" class="highlight">R0.00</span>
+                </div>
+                <div class="analytics-card">
+                    <i class="fas fa-coins"></i>
+                    <p>Total Repayment Amount</p>
+                    <span id="analyticsTotalRepaymentAmount" class="highlight">R0.00</span>
+                </div>
+                <div class="analytics-card">
+                    <i class="fas fa-file-alt"></i>
+                    <p>Number of Applications</p>
+                    <span id="analyticsTotalApplications" class="highlight">0</span>
+                </div>
+            </div>
+        </div>
+        <h2>Personal Details</h2>
+        <form id="personalDetailsForm">
+            <div class="form-group">
+                <label for="fullName">Full Name:</label>
+                <input type="text" name="fullName" id="fullName" placeholder="Full Name" required />
+            </div>
+            <div class="form-group">
+                <label for="idNumber">ID Number:</label>
+                <input type="text" name="idNumber" id="idNumber" placeholder="ID Number" required />
+            </div>
+            <div class="form-group">
+                <label for="contact">Contact Information:</label>
+                <input type="tel" name="contact" id="contact" placeholder="Phone Number" required />
+            </div>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" name="address" id="address" placeholder="Residential Address" required />
+            </div>
+            <div class="form-group">
+                <label for="employmentStatus">Employment Status:</label>
+                <select name="employmentStatus" id="employmentStatus" required>
+                    <option value="">Select Employment Status</option>
+                    <option value="Employed">Employed</option>
+                    <option value="Self-Employed">Self-Employed</option>
+                    <option value="Unemployed">Unemployed</option>
+                    <option value="Student">Student</option>
+                    <option value="Retired">Retired</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="company">Company Name:</label>
+                <select name="company" id="company" required>
+                    <option value="" disabled selected>Select a Company</option>
+                    <option value="Diplomat South Africa">Diplomat South Africa</option>
+                    <option value="Unilever">Unilever</option>
+                    <option value="Lectogen Pamarlat">Lectogen Pamarlat</option>
+                    <option value="Tigerbrand">Tigerbrand</option>
+                    <option value="Vibrant Sales">Vibrant Sales</option>
+                    <option value="TFS">TFS</option>
+                    <option value="Checksave">Checksave</option>
+                    <option value="OK Groceries">OK Groceries</option>
+                    <option value="OKFoodsSpar">OKFoodsSpar</option>
+                    <option value="Shoprite">Shoprite</option>
+                    <option value="AVI">AVI</option>
+                    <option value="FGKnights">FGKnights</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="idDocument">Upload ID Document:</label>
+                <input type="file" name="idDocument" id="idDocument" accept=".pdf,.jpg,.png,.jpeg" required />
+            </div>
+            <section class="loan-application-section">
+                <h2>Loan Application</h2>
+                <div class="form-group">
+                    <label for="expectedLoanDate">Expected Loan Date:</label>
+                    <input type="date" id="expectedLoanDate" name="expectedLoanDate" required />
+                </div>
+                <div class="form-group">
+                    <label for="loanAmount">Loan Amount:</label>
+                    <input type="number" id="loanAmount" name="loanAmount" placeholder="Enter Loan Amount" required />
+                </div>
+                <div class="calculation-summary">
+                    <p>Transaction Details: <span id="transactionDetails" class="highlight">N/A</span></p>
+                    <p>Total Repayment: <span id="totalRepayment" class="highlight">R0.00</span></p>
+                </div>
+                <button type="submit" class="primary-btn">Apply for Loan</button>
+            </section>
+        </form>
+      
+        <h2>Loan Applications</h2>
+          <!-- Search and Filter -->
+          <div class="search-filter">
+            <input type="text" id="searchInput" placeholder="Search by name or ID number">
+            <select id="filterStatus">
+                <option value="">All Statuses</option>
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+        </div>
+        <div class="export-buttons">
+            <button id="exportCSV"><i class="fas fa-file-csv"></i> Export to CSV</button>
+            <button id="exportExcel"><i class="fas fa-file-excel"></i> Export to Excel</button>
+            <button id="exportPDF"><i class="fas fa-file-pdf"></i> Export to PDF</button>
+        </div>
+        <div class="responsive-table">
+            <table id="loanApplicationsTable">
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-user"></i> Full Name</th>
+                        <th><i class="fas fa-id-card"></i> ID Number</th>
+                        <th><i class="fas fa-phone"></i> Contact</th>
+                        <th><i class="fas fa-map-marker-alt"></i> Address</th>
+                        <th><i class="fas fa-briefcase"></i> Employment Status</th>
+                        <th><i class="fas fa-building"></i> Company</th>
+                        <th><i class="fas fa-dollar-sign"></i> Loan Amount</th>
+                        <th><i class="fas fa-money-check-alt"></i> Total Repayment</th>
+                        <th><i class="fas fa-calendar-alt"></i> Expected Loan Date</th>
+                        <th><i class="fas fa-file-alt"></i> ID Document</th>
+                        <th><i class="fas fa-tasks"></i> Status</th>
+                        <th><i class="fas fa-cogs"></i> Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loan applications will be dynamically added here -->
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="6" style="text-align: right; font-weight: bold;">Total:</td>
+                        <td id="totalLoanAmount" style="font-weight: bold;">R0.00</td>
+                        <td id="totalRepaymentAmount" style="font-weight: bold;">R0.00</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <!-- Transaction History Modal -->
+        <div id="transactionHistoryModal" class="modal">
+            <div class="modal-content">
+                <span class="close-button" onclick="closeTransactionHistoryModal()">&times;</span>
+                <h2>Transaction History</h2>
+                <div id="transactionHistoryContent"></div>
+                <div class="modal-actions">
+                    <button id="downloadPDFButton"><i class="fas fa-file-pdf"></i> Download PDF</button>
+                    <button id="shareWhatsAppButton"><i class="fab fa-whatsapp"></i> Share via WhatsApp</button>
+                </div>
+            </div>
+        </div>
+        <!-- Pagination -->
+        <div class="pagination">
+            <button id="prevPage"><i class="fas fa-chevron-left"></i> Previous</button>
+            <span id="currentPage">1</span>
+            <button id="nextPage">Next <i class="fas fa-chevron-right"></i></button>
+        </div>
+        <!-- Export Data -->
+       
+        <!-- Notifications -->
+        <div id="notifications"></div>
+        </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loanAmountInput = document.getElementById('loanAmount');
+            const totalRepaymentSpan = document.getElementById('totalRepayment');
+            const transactionDetailsSpan = document.getElementById('transactionDetails');
+            const personalDetailsForm = document.getElementById('personalDetailsForm');
+            const loanApplicationsTable = document.getElementById('loanApplicationsTable').getElementsByTagName('tbody')[0];
+            const searchInput = document.getElementById('searchInput');
+            const filterStatus = document.getElementById('filterStatus');
+            const prevPageButton = document.getElementById('prevPage');
+            const nextPageButton = document.getElementById('nextPage');
+            const currentPageSpan = document.getElementById('currentPage');
+            const exportCSVButton = document.getElementById('exportCSV');
+            const exportExcelButton = document.getElementById('exportExcel');
+            const exportPDFButton = document.getElementById('exportPDF');
+            const notificationsDiv = document.getElementById('notifications');
+            let currentPage = 1;
+            const itemsPerPage = 10;
+
+            loanAmountInput.addEventListener('input', function() {
+                const loanAmount = parseFloat(this.value) || 0;
+                const interestRate = 0.35; // 35% interest rate
+                const totalRepayment = loanAmount + (loanAmount * interestRate);
+                totalRepaymentSpan.textContent = 'R' + totalRepayment.toFixed(2);
+                transactionDetailsSpan.textContent = 'Loan Amount: R' + loanAmount.toFixed(2) + ', Interest: R' + (loanAmount * interestRate).toFixed(2);
+            });
+
+            personalDetailsForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const formData = new FormData(personalDetailsForm);
+                const idDocumentFile = formData.get('idDocument');
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const loanApplication = {
+                        fullName: formData.get('fullName'),
+                        idNumber: formData.get('idNumber'),
+                        contact: formData.get('contact'),
+                        address: formData.get('address'),
+                        employmentStatus: formData.get('employmentStatus'),
+                        company: formData.get('company'),
+                        loanAmount: formData.get('loanAmount'),
+                        totalRepayment: totalRepaymentSpan.textContent,
+                        expectedLoanDate: formData.get('expectedLoanDate'),
+                        idDocument: e.target.result
+                    };
+                    saveLoanApplication(loanApplication);
+                    addLoanApplicationToTable(loanApplication);
+                    personalDetailsForm.reset();
+                    totalRepaymentSpan.textContent = 'R0.00';
+                    transactionDetailsSpan.textContent = 'N/A';
+                };
+                reader.readAsDataURL(idDocumentFile);
+            });
+
+            function saveLoanApplication(loanApplication) {
+                let loanApplications = JSON.parse(localStorage.getItem('loanApplications')) || [];
+                loanApplications.push(loanApplication);
+                localStorage.setItem('loanApplications', JSON.stringify(loanApplications));
+            }
+
+            function loadLoanApplications() {
+                let loanApplications = JSON.parse(localStorage.getItem('loanApplications')) || [];
+                loanApplications.forEach(addLoanApplicationToTable);
+            }
+
+            function addLoanApplicationToTable(loanApplication) {
+                const row = loanApplicationsTable.insertRow();
+                const fullNameCell = row.insertCell(0);
+                fullNameCell.textContent = loanApplication.fullName;
+                fullNameCell.classList.add('clickable');
+                fullNameCell.addEventListener('click', () => showTransactionHistory(loanApplication.fullName));
+                row.insertCell(1).textContent = loanApplication.idNumber;
+                row.insertCell(2).textContent = loanApplication.contact;
+                row.insertCell(3).textContent = loanApplication.address;
+                row.insertCell(4).textContent = loanApplication.employmentStatus;
+                row.insertCell(5).textContent = loanApplication.company;
+                row.insertCell(6).textContent = loanApplication.loanAmount;
+                row.insertCell(7).textContent = loanApplication.totalRepayment;
+                row.insertCell(8).textContent = loanApplication.expectedLoanDate;
+                const idDocumentCell = row.insertCell(9);
+                const idDocumentImage = document.createElement('img');
+                idDocumentImage.src = loanApplication.idDocument;
+                idDocumentImage.alt = 'ID Document';
+                idDocumentImage.style.width = '100px';
+                idDocumentImage.style.height = 'auto';
+                idDocumentCell.appendChild(idDocumentImage);
+                const statusCell = row.insertCell(10);
+                const statusSelect = document.createElement('select');
+                statusSelect.innerHTML = `
+                    <option value="Pending">Pending</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Rejected">Rejected</option>
+                `;
+                statusSelect.value = loanApplication.status || 'Pending';
+                statusSelect.addEventListener('change', () => updateLoanApplicationStatus(loanApplication.idNumber, statusSelect.value));
+                statusCell.appendChild(statusSelect);
+                const actionsCell = row.insertCell(11);
+                actionsCell.classList.add('actions');
+                const editButton = document.createElement('button');
+                editButton.innerHTML = '<i class="fas fa-edit"></i>';
+                editButton.addEventListener('click', () => editLoanApplication(row, loanApplication));
+                actionsCell.appendChild(editButton);
+                const deleteButton = document.createElement('button');
+                deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+                deleteButton.addEventListener('click', () => deleteLoanApplication(row, loanApplication));
+                actionsCell.appendChild(deleteButton);
+                const pdfButton = document.createElement('button');
+                pdfButton.innerHTML = '<i class="fas fa-file-pdf"></i>';
+                pdfButton.addEventListener('click', () => downloadPDF(loanApplication));
+                actionsCell.appendChild(pdfButton);
+                updateTotals();
+            }
+
+            function editLoanApplication(row, loanApplication) {
+                document.getElementById('fullName').value = loanApplication.fullName;
+                document.getElementById('idNumber').value = loanApplication.idNumber;
+                document.getElementById('contact').value = loanApplication.contact;
+                document.getElementById('address').value = loanApplication.address;
+                document.getElementById('employmentStatus').value = loanApplication.employmentStatus;
+                document.getElementById('company').value = loanApplication.company;
+                document.getElementById('loanAmount').value = loanApplication.loanAmount;
+                document.getElementById('totalRepayment').textContent = loanApplication.totalRepayment;
+                document.getElementById('transactionDetails').textContent = `Loan Amount: R${loanApplication.loanAmount}, Interest: R${(loanApplication.loanAmount * 0.35).toFixed(2)}`;
+                
+                // Remove the loan application from local storage and table
+                deleteLoanApplication(row, loanApplication);
+            }
+
+            function deleteLoanApplication(row, loanApplication) {
+                let loanApplications = JSON.parse(localStorage.getItem('loanApplications')) || [];
+                loanApplications = loanApplications.filter(app => app.idNumber !== loanApplication.idNumber);
+                localStorage.setItem('loanApplications', JSON.stringify(loanApplications));
+                row.remove();
+                updateTotals();
+            }
+
+            function updateLoanApplicationStatus(idNumber, status) {
+                let loanApplications = JSON.parse(localStorage.getItem('loanApplications')) || [];
+                loanApplications = loanApplications.map(app => {
+                    if (app.idNumber === idNumber) {
+                        app.status = status;
+                    }
+                    return app;
+                });
+                localStorage.setItem('loanApplications', JSON.stringify(loanApplications));
+            }
+
+            function updateTotals() {
+                let loanApplications = JSON.parse(localStorage.getItem('loanApplications')) || [];
+                let totalLoanAmount = loanApplications.reduce((sum, app) => sum + parseFloat(app.loanAmount), 0);
+                let totalRepaymentAmount = loanApplications.reduce((sum, app) => sum + parseFloat(app.totalRepayment.replace('R', '')), 0);
+                document.getElementById('totalLoanAmount').textContent = 'R' + totalLoanAmount.toFixed(2);
+                document.getElementById('totalRepaymentAmount').textContent = 'R' + totalRepaymentAmount.toFixed(2);
+            }
+
+            searchInput.addEventListener('input', filterLoanApplications);
+            filterStatus.addEventListener('change', filterLoanApplications);
+            prevPageButton.addEventListener('click', () => changePage(-1));
+            nextPageButton.addEventListener('click', () => changePage(1));
+            exportCSVButton.addEventListener('click', exportToCSV);
+            exportExcelButton.addEventListener('click', exportToExcel);
+            exportPDFButton.addEventListener('click', exportToPDF);
+
+            function filterLoanApplications() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const status = filterStatus.value;
+                let loanApplications = JSON.parse(localStorage.getItem('loanApplications')) || [];
+                loanApplications = loanApplications.filter(app => 
+                    (app.fullName.toLowerCase().includes(searchTerm) || app.idNumber.includes(searchTerm)) &&
+                    (status === '' || app.status === status)
+                );
+                displayLoanApplications(loanApplications);
+            }
+
+            function changePage(direction) {
+                currentPage += direction;
+                displayLoanApplications();
+            }
+
+            function displayLoanApplications(loanApplications = JSON.parse(localStorage.getItem('loanApplications')) || []) {
+                const start = (currentPage - 1) * itemsPerPage;
+                const end = start + itemsPerPage;
+                const paginatedApplications = loanApplications.slice(start, end);
+                loanApplicationsTable.innerHTML = '';
+                paginatedApplications.forEach(addLoanApplicationToTable);
+                currentPageSpan.textContent = currentPage;
+                updateTotals();
+                updateAnalytics();
+            }
+
+            function exportToCSV() {
+                const loanApplications = JSON.parse(localStorage.getItem('loanApplications')) || [];
+                const csv = loanApplications.map(app => Object.values(app).join(',')).join('\n');
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'loan_applications.csv';
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+
+            function exportToExcel() {
+                const loanApplications = JSON.parse(localStorage.getItem('loanApplications')) || [];
+                const worksheet = XLSX.utils.json_to_sheet(loanApplications);
+                const workbook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workbook, worksheet, "Loan Applications");
+                XLSX.writeFile(workbook, "loan_applications.xlsx");
+            }
+
+         function exportToPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Add a title
+    doc.setFontSize(16);
+    doc.text('Loan Applications', 105, 10, { align: 'center' });
+
+    // Retrieve loan applications from localStorage
+    const loanApplications = JSON.parse(localStorage.getItem('loanApplications')) || [];
+
+    // Prepare data for the table
+    const tableHeaders = [
+        'Full Name', 
+        'ID Number', 
+        'Contact', 
+        'Address', 
+        'Employment Status', 
+        'Company', 
+        'Loan Amount', 
+        'Total Repayment'
+    ];
+    const tableData = loanApplications.map(app => [
+        app.fullName,
+        app.idNumber,
+        app.contact,
+        app.address,
+        app.employmentStatus,
+        app.company,
+        `R${app.loanAmount}`,
+        `R${app.totalRepayment}`
+    ]);
+
+    // Add the table using autoTable
+    doc.autoTable({
+        head: [tableHeaders],
+        body: tableData,
+        startY: 20,
+        styles: {
+            fontSize: 10, // Adjust font size
+            cellPadding: 2,
+        },
+        headStyles: {
+            fillColor: [22, 160, 133], // Customize header background color
+            textColor: [255, 255, 255], // Header text color
+            halign: 'center',
+        },
+        bodyStyles: {
+            halign: 'center',
+        },
+        alternateRowStyles: {
+            fillColor: [240, 240, 240], // Alternating row color
+        },
+    });
+
+    // Save the PDF
+    doc.save('loan_applications.pdf');
+}
+
+
+            function downloadPDF(loanApplication) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Add the company logo at the top (adjust position and size as needed)
+    const companyLogo = 'data:image/png;base64,<your_base64_encoded_image>'; // Replace with your logo in Base64
+    doc.addImage(companyLogo, 'PNG', 10, 10, 50, 20);
+
+    // Add a title below the logo
+    doc.setFontSize(16);
+    doc.setFont("helvetica", "bold");
+    doc.text('Loan Application Details', 105, 40, { align: 'center' });
+
+    // Draw a horizontal line below the title
+    doc.setLineWidth(0.5);
+    doc.line(10, 45, 200, 45);
+
+    // Use smaller fonts for content
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+
+    // Add labels and values in a neat layout
+    let y = 55; // Starting vertical position below the header
+    const lineHeight = 10; // Line spacing
+
+    const fields = [
+        { label: "Full Name", value: loanApplication.fullName },
+        { label: "ID Number", value: loanApplication.idNumber },
+        { label: "Contact", value: loanApplication.contact },
+        { label: "Address", value: loanApplication.address },
+        { label: "Employment Status", value: loanApplication.employmentStatus },
+        { label: "Company", value: loanApplication.company },
+        { label: "Expected Loan Date", value: loanApplication.expectedLoanDate },
+        { label: "Loan Amount", value: `R${loanApplication.loanAmount}` },
+        { label: "Total Repayment", value: `R${loanApplication.totalRepayment}` }
+    ];
+
+    fields.forEach(field => {
+        doc.setFont("helvetica", "bold");
+        doc.text(`${field.label}:`, 10, y);
+        doc.setFont("helvetica", "normal");
+        doc.text(field.value || 'N/A', 60, y);
+        y += lineHeight;
+    });
+
+    // Add the ID document image (if provided) with a border
+    if (loanApplication.idDocument) {
+        y += 10; // Add spacing before the image
+        doc.text("ID Document:", 10, y);
+        doc.rect(10, y + 5, 190, 80); // Border for the image
+        doc.addImage(loanApplication.idDocument, 'PNG', 15, y + 10, 180, 70);
+    }
+
+    // Footer with a signature line
+    y += loanApplication.idDocument ? 95 : 20;
+    doc.setLineWidth(0.2);
+    doc.line(10, y, 80, y);
+    doc.text("Signature", 10, y + 5);
+
+    // Add a page footer
+    doc.setFontSize(10);
+    doc.text("Thank you for your application.", 105, 290, { align: 'center' });
+    doc.text("Contact us: +27 123 456 789 | email@example.com", 105, 295, { align: 'center' });
+
+    // Save the PDF
+    doc.save(`${loanApplication.fullName}_loan_application.pdf`);
+}
+
+
+            function showNotification(message) {
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.textContent = message;
+                notificationsDiv.appendChild(notification);
+                setTimeout(() => notification.remove(), 3000);
+            }
+
+            function updateAnalytics() {
+                const loanApplications = JSON.parse(localStorage.getItem('loanApplications')) || [];
+                const totalLoanAmount = loanApplications.reduce((sum, app) => sum + parseFloat(app.loanAmount), 0);
+                const totalRepaymentAmount = loanApplications.reduce((sum, app) => sum + parseFloat(app.totalRepayment.replace('R', '')), 0);
+                const totalApplications = loanApplications.length;
+                document.getElementById('analyticsTotalLoanAmount').textContent = 'R' + totalLoanAmount.toFixed(2);
+                document.getElementById('analyticsTotalRepaymentAmount').textContent = 'R' + totalRepaymentAmount.toFixed(2);
+                document.getElementById('analyticsTotalApplications').textContent = totalApplications;
+            }
+
+            function showTransactionHistory(fullName) {
+                const loanApplications = JSON.parse(localStorage.getItem('loanApplications')) || [];
+                const userTransactions = loanApplications.filter(app => app.fullName === fullName);
+                const transactionHistoryContent = document.getElementById('transactionHistoryContent');
+                transactionHistoryContent.innerHTML = '';
+
+                if (userTransactions.length > 0) {
+                    userTransactions.forEach(transaction => {
+                        const transactionDiv = document.createElement('div');
+                        transactionDiv.classList.add('transaction');
+                        transactionDiv.innerHTML = `
+                            <p><strong>Full Name:</strong> ${transaction.fullName}</p>
+                            <p><strong>ID Number:</strong> ${transaction.idNumber}</p>
+                            <p><strong>Contact:</strong> ${transaction.contact}</p>
+                            <p><strong>Address:</strong> ${transaction.address}</p>
+                            <p><strong>Employment Status:</strong> ${transaction.employmentStatus}</p>
+                            <p><strong>Company:</strong> ${transaction.company}</p>
+                            <p><strong>Expected Loan Date:</strong> ${transaction.expectedLoanDate}</p>
+                            <p><strong>Loan Amount:</strong> ${transaction.loanAmount}</p>
+                            <p><strong>Total Repayment:</strong> ${transaction.totalRepayment}</p>
+                            <p><strong>Status:</strong> ${transaction.status}</p>
+                        `;
+                        transactionHistoryContent.appendChild(transactionDiv);
+                    });
+
+                    document.getElementById('downloadPDFButton').onclick = () => downloadPDF(userTransactions);
+                    document.getElementById('shareWhatsAppButton').onclick = () => shareViaWhatsApp(userTransactions);
+                } else {
+                    transactionHistoryContent.innerHTML = '<p>No transactions found for this user.</p>';
+                }
+
+                document.getElementById('transactionHistoryModal').style.display = 'block';
+            }
+
+            function closeTransactionHistoryModal() {
+                document.getElementById('transactionHistoryModal').style.display = 'none';
+            }
+
+            // Add event listener for the close button
+            document.querySelector('.close-button').addEventListener('click', closeTransactionHistoryModal);
+
+            function downloadPDF(transactions) {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                transactions.forEach((transaction, index) => {
+                    doc.text('Loan Application Details', 10, 10 + (index * 90));
+                    doc.text(`Full Name: ${transaction.fullName}`, 10, 20 + (index * 90));
+                    doc.text(`ID Number: ${transaction.idNumber}`, 10, 30 + (index * 90));
+                    doc.text(`Contact: ${transaction.contact}`, 10, 40 + (index * 90));
+                    doc.text(`Address: ${transaction.address}`, 10, 50 + (index * 90));
+                    doc.text(`Employment Status: ${transaction.employmentStatus}`, 10, 60 + (index * 90));
+                    doc.text(`Company: ${transaction.company}`, 10, 70 + (index * 90));
+                    doc.text(`Expected Loan Date: ${transaction.expectedLoanDate}`, 10, 80 + (index * 90));
+                    doc.text(`Loan Amount: ${transaction.loanAmount}`, 10, 90 + (index * 90));
+                    doc.text(`Total Repayment: ${transaction.totalRepayment}`, 10, 100 + (index * 90));
+                    doc.text(`Status: ${transaction.status}`, 10, 110 + (index * 90));
+
+                    if (transaction.idDocument) {
+                        doc.addImage(transaction.idDocument, 'PNG', 10, 120 + (index * 90), 180, 80);
+                    }
+
+                    if (index < transactions.length - 1) {
+                        doc.addPage();
+                    }
+                });
+
+                doc.save('transaction_history.pdf');
+            }
+
+            function shareViaWhatsApp(transactions) {
+                let message = 'Loan Application Details:\n\n';
+                transactions.forEach(transaction => {
+                    message += `Full Name: ${transaction.fullName}\n`;
+                    message += `ID Number: ${transaction.idNumber}\n`;
+                    message += `Contact: ${transaction.contact}\n`;
+                    message += `Address: ${transaction.address}\n`;
+                    message += `Employment Status: ${transaction.employmentStatus}\n`;
+                    message += `Company: ${transaction.company}\n`;
+                    message += `Expected Loan Date: ${transaction.expectedLoanDate}\n`;
+                    message += `Loan Amount: ${transaction.loanAmount}\n`;
+                    message += `Total Repayment: ${transaction.totalRepayment}\n`;
+                    message += `Status: ${transaction.status}\n\n`;
+                });
+
+                const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+            }
+
+            loadLoanApplications();
+            displayLoanApplications();
+        });
+    </script>
+    
+</body>
+    
+</html>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        header nav a {
+            color: #fff;
+            margin: 0 15px;
+            text-decoration: none;
+        }
+
+        header nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .primary-btn {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .primary-btn:hover {
+            background-color: #555;
+        }
+
+        .calculation-summary {
+            margin-top: 20px;
+        }
+
+        .calculation-summary p {
+            margin: 5px 0;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #0288d1;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .actions button {
+            margin-right: 5px;
+        }
+
+        .responsive-table {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .responsive-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .responsive-table th, .responsive-table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+            vertical-align: middle;
+        }
+
+        .responsive-table th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .responsive-table th i {
+            margin-right: 5px;
+            color: #0288d1;
+        }
+
+        .responsive-table td img {
+            display: block;
+            margin: 0 auto;
+            max-width: 100px;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .responsive-table select {
+            width: 100%;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .responsive-table button {
+            background-color: transparent;
+            color: #0288d1;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .responsive-table button:hover {
+            color: #026aa7;
+        }
+
+        .responsive-table .actions button {
+            margin-right: 5px;
+        }
+
+        .responsive-table .actions i {
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .responsive-table th, .responsive-table td {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+        }
+
+        .analytics {
+            margin-bottom: 30px;
+        }
+
+        .analytics-cards {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .analytics-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .analytics-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .analytics-card i {
+            font-size: 2rem;
+            color: #0288d1;
+            margin-bottom: 10px;
+        }
+
+        .analytics-card p {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .analytics-card .highlight {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0288d1;
+        }
+
+        .clickable {
+            cursor: pointer;
+            color: #0288d1;
+            text-decoration: underline;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.9);
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .close-button {
+            float: right;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .close-button:hover {
+            color: #ff0000;
+        }
+
+        .transaction {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .transaction p {
+            margin: 5px 0;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .modal-actions button {
+            background-color: #0288d1;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .modal-actions button:hover {
+            background-color: #026aa7;
+        }
+
+        .modal-actions i {
+            margin-right: 5px;
+        }
+    </style>
